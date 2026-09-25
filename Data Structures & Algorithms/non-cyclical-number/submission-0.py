@@ -1,0 +1,10 @@
+class Solution:
+    def isHappy(self, n: int) -> bool:
+        seen = set()
+        while(n != 1):
+            if n in seen:
+                return False
+            else:
+                seen.add(n)
+                n = sum([int(i) ** 2 for i in list(str(n))])
+        return True
