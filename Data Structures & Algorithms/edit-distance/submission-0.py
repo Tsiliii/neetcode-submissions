@@ -1,0 +1,28 @@
+class Solution:
+    def minDistance(self, word1: str, word2: str) -> int:
+        n, m = len(word1), len(word2)
+
+        dp = [[0] * (m + 1) for _ in range(n + 1)]
+
+        # Base cases
+        for i in range(n + 1):
+            dp[i][m] = n - i
+
+        for j in range(m + 1):
+            dp[n][j] = m - j
+
+        # Fill the table backward
+        for i in range(n - 1, -1, -1):
+            for j in range(m - 1, -1, -1):
+
+                if word1[i] == word2[j]:
+                    dp[i][j] = dp[i + 1][j + 1]
+
+                else:
+                    dp[i][j] = 1 + min(
+                        dp[i][j + 1],      # Insert
+                        dp[i + 1][j],      # Delete
+                        dp[i + 1][j + 1]   # Replace
+                    )
+
+        return dp[0][0]
