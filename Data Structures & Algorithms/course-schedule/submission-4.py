@@ -1,0 +1,60 @@
+class Solution:
+    def dfs(self, node: int, seen: set, adj: dict, path: set) -> bool:
+        if node in path:
+            return False
+        elif node in seen:
+            return True
+
+        seen.add(node)
+        path.add(node)
+        for neighbor in adj.get(node, []):
+            if not self.dfs(neighbor, seen, adj, path):
+                return False
+        path.remove(node)
+        return True
+
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        adj = {}
+        for a, b in prerequisites:
+            if a not in adj:
+                adj[a] = []
+            adj[a].append(b)
+
+        seen = set()
+        for i in range(numCourses):
+            if i not in seen:
+                path = set()
+                if not self.dfs(i, seen, adj, path):
+                    return False
+        return True
+
+
+
+    # def dfs(self, course: int) -> int:
+    #     if course in self.path:
+    #         return False
+
+    #     if course in self.seen:
+    #         return True
+
+    #     self.seen.add(course)
+    #     self.path.add(course)
+    #     for new_course in self.adj.get(course, []):
+    #         if not self.dfs(new_course):
+    #             return False
+    #     self.path.remove(course)
+    #     return True
+
+    # def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+    #     self.adj = {}
+    #     for a, b in prerequisites:
+    #         if a not in self.adj:
+    #             self.adj[a] = []
+    #         self.adj[a].append(b)
+
+    #     self.seen = set()
+    #     for course in range(numCourses):
+    #         self.path = set()
+    #         if course not in self.seen and not self.dfs(course):
+    #             return False
+    #     return True
